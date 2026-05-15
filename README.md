@@ -88,4 +88,4 @@ The platform will be available at:
 Enterprise Proprietary / Intelligence Use Only.
 
 ---
-*Built by elite engineers for the defense of the digital frontier.*
+*Built by Ananthapadmanabhan*
