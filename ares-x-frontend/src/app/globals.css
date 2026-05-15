@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --color-background: #0a0a0c;
+  --color-foreground: #e4e4e7;
+  --color-card: #121215;
+  --color-card-foreground: #e4e4e7;
+  --color-popover: #0a0a0c;
+  --color-popover-foreground: #e4e4e7;
+  --color-primary: #3b82f6;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #1e1e24;
+  --color-secondary-foreground: #e4e4e7;
+  --color-muted: #1e1e24;
+  --color-muted-foreground: #a1a1aa;
+  --color-accent: #27272a;
+  --color-accent-foreground: #e4e4e7;
+  --color-destructive: #ef4444;
+  --color-destructive-foreground: #fafafa;
+  --color-border: #27272a;
+  --color-input: #27272a;
+  --color-ring: #3b82f6;
+
+  --radius-lg: 0.5rem;
+  --radius-md: calc(var(--radius-lg) - 2px);
+  --radius-sm: calc(var(--radius-lg) - 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    letter-spacing: -0.01em;
+  }
+}
+
+/* Custom Cyber Forensic Styles */
+.cyber-panel {
+  @apply bg-card border border-border rounded-lg overflow-hidden;
+  box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.5);
+}
+
+.cyber-grid {
+  background-image: radial-gradient(circle at 2px 2px, #1e1e24 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.glass-header {
+  @apply sticky top-0 z-50 w-full border-b border-border bg-background/80 backdrop-blur-md;
+}
+
+.glow-text {
+  text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+.forensic-gradient {
+  background: linear-gradient(135deg, #1e1e24 0%, #0a0a0c 100%);
+}

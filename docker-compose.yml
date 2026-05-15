@@ -1,0 +1,56 @@
+services:
+  ares-x-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ares_x
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  ares-x-redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  ares-x-api:
+    build: 
+      context: ./ares-x-backend
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    volumes:
+      - ./ares-x-backend:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@ares-x-db/ares_x
+      - REDIS_HOST=ares-x-redis
+    ports:
+      - "8000:8000"
+    depends_on:
+      - ares-x-db
+      - ares-x-redis
+
+  ares-x-worker:
+    build:
+      context: ./ares-x-backend
+    command: celery -A app.tasks.forensics.celery_app worker --loglevel=info
+    volumes:
+      - ./ares-x-backend:/app
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@ares-x-db/ares_x
+      - REDIS_HOST=ares-x-redis
+    depends_on:
+      - ares-x-redis
+
+  ares-x-frontend:
+    build:
+      context: ./ares-x-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+    depends_on:
+      - ares-x-api
+
+volumes:
+  postgres_data:
